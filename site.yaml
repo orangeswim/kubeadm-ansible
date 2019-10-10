@@ -2,7 +2,10 @@
 - hosts: kube-cluster
   gather_facts: yes
   become: yes
+  vars_files:
+    - group_vars/firewall.yml
   roles:
+    - { role: geerlingguy.firewall }
     - { role: docker, tags: docker }
 
 - hosts: master
@@ -11,7 +14,7 @@
   roles:
     - { role: kubernetes/master, tags: master }
     - { role: cni, tags: cni }
-
+    
 - hosts: node
   gather_facts: yes
   become: yes
